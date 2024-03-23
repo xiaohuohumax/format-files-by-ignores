@@ -1,5 +1,11 @@
 # format-files-by-ignores
 
+## 1.0.5
+
+### Patch Changes
+
+- [`914fac4`](https://github.com/xiaohuohumax/format-files-by-ignores/commit/914fac4bd10ba1771b5404ebe7f26eb49b5bcda1) Thanks [@xiaohuohumax](https://github.com/xiaohuohumax)! - action
+
 ## 1.0.4
 
 ### Patch Changes
