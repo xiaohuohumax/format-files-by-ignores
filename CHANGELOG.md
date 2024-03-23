@@ -1,5 +1,11 @@
 # format-files-by-ignores
 
+## 1.0.2
+
+### Patch Changes
+
+- [`db0704e`](https://github.com/xiaohuohumax/format-files-by-ignores/commit/db0704e22147b91e1bfd60cb0b01bafe85da6611) Thanks [@xiaohuohumax](https://github.com/xiaohuohumax)! - update action
+
 ## 1.0.1
 
 ### Patch Changes
