@@ -1,5 +1,11 @@
 # format-files-by-ignores
 
+## 1.0.6
+
+### Patch Changes
+
+- [`b28205f`](https://github.com/xiaohuohumax/format-files-by-ignores/commit/b28205f74b7d6383e14680637db6b23c6b62adc6) Thanks [@xiaohuohumax](https://github.com/xiaohuohumax)! - update command title
+
 ## 1.0.5
 
 ### Patch Changes
