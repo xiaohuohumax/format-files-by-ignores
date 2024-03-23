@@ -60,12 +60,12 @@
     "commands": [
       {
         "command": "formatFilesByIgnores.start.formatFolder",
-        "title": "Satrt Format Folder By Ignores 📂",
+        "title": "Start Format Folder By Ignores 📂",
         "enablement": "explorerViewletVisible && filesExplorerFocus && explorerResourceIsFolder"
       },
       {
         "command": "formatFilesByIgnores.start.formatWorkspace",
-        "title": "Satrt Format Workspace By Ignores 📂"
+        "title": "Start Format Workspace By Ignores 📂"
       }
     ],
     "menus": {

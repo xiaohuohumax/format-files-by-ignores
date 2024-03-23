@@ -6,10 +6,10 @@
 
 - **Format Workspace**
   - Open command pallette (Ctrl + Shift + P)
-  - Enter "Satrt Format Workspace By Ignores 📂"
+  - Enter "Start Format Workspace By Ignores 📂"
 - **Format Folder**
   - Right click a folder
-  - Select "Satrt Format Folder By Ignores 📂"
+  - Select "Start Format Folder By Ignores 📂"
 
 ## ⚙ Options
 
