@@ -1,5 +1,11 @@
 # format-files-by-ignores
 
+## 1.0.3
+
+### Patch Changes
+
+- [`5c02aa4`](https://github.com/xiaohuohumax/format-files-by-ignores/commit/5c02aa4c5689290dbf203ae35a8353c587fa6820) Thanks [@xiaohuohumax](https://github.com/xiaohuohumax)! - update action
+
 ## 1.0.2
 
 ### Patch Changes
