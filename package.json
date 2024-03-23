@@ -1,0 +1,106 @@
+{
+  "name": "format-files-by-ignores",
+  "displayName": "Format Files By Ignores",
+  "description": "Format files by ignore files (.gitignore, ...)",
+  "version": "1.0.0",
+  "icon": "icon.png",
+  "publisher": "xiaohuohumax",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xiaohuohumax/format-files-by-ignores.git"
+  },
+  "engines": {
+    "vscode": "^1.87.0"
+  },
+  "categories": [
+    "Formatters"
+  ],
+  "keywords": [
+    "format-files",
+    "ignore",
+    "gitignore",
+    "format-folder",
+    "format-wrokspace",
+    "formatters"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": [
+      {
+        "properties": {
+          "formatFilesByIgnores.ignoreExtension": {
+            "scope": "resource",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Ignore extension rules (root folder)",
+            "default": [
+              "node_modules",
+              ".vscode",
+              ".git",
+              "dist"
+            ]
+          },
+          "formatFilesByIgnores.ignoreFileNames": {
+            "scope": "resource",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Ignore files name",
+            "default": [
+              ".gitignore"
+            ]
+          }
+        }
+      }
+    ],
+    "commands": [
+      {
+        "command": "formatFilesByIgnores.start.formatFolder",
+        "title": "Satrt Format Folder By Ignores 📂",
+        "enablement": "explorerViewletVisible && filesExplorerFocus && explorerResourceIsFolder"
+      },
+      {
+        "command": "formatFilesByIgnores.start.formatWorkspace",
+        "title": "Satrt Format Workspace By Ignores 📂"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "when": "explorerResourceIsFolder",
+          "command": "formatFilesByIgnores.start.formatFolder",
+          "group": "navigation@-1"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "pnpm run compile && pnpm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "vscode-test",
+    "changeset": "changeset"
+  },
+  "devDependencies": {
+    "@changesets/changelog-github": "^0.5.0",
+    "@changesets/cli": "^2.27.1",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "18.x",
+    "@types/vscode": "^1.87.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.2",
+    "@typescript-eslint/parser": "^7.0.2",
+    "@vscode/test-cli": "^0.0.6",
+    "@vscode/test-electron": "^2.3.9",
+    "@vscode/vsce": "^2.24.0",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "ignore": "^5.3.1"
+  }
+}
