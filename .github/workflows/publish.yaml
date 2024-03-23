@@ -33,4 +33,6 @@ jobs:
 
       - name: Publish
         if: steps.changesets.outputs.hasChangesets == 'false'
-        run: npx vsce publish -p {{ secrets.VSCE_PAT }}
+        run: npm run vsce-publish
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
