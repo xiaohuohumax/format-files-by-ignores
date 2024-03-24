@@ -1,5 +1,11 @@
 # format-files-by-ignores
 
+## 1.2.0
+
+### Minor Changes
+
+- [`4e14c70`](https://github.com/xiaohuohumax/format-files-by-ignores/commit/4e14c70b5645119817ca28875ee2bf5639cba36f) Thanks [@xiaohuohumax](https://github.com/xiaohuohumax)! - 添加配置 useignoreExtension: 是否使用过滤规则扩展
+
 ## 1.1.0
 
 ### Minor Changes
