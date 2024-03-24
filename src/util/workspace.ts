@@ -22,6 +22,11 @@ export async function selectWorkspace(folder?: Uri): Promise<WorkspaceFolder> {
         throw new OperationAborted('Workspace not open');
     }
 
+    // 只有一个工作空间则直接返回不需要选择
+    if (wps.length === 1) {
+        return wps[0];
+    }
+
     const result = await window.showQuickPick(wps.map(w => w.name), {
         title: `Select the workspace that needs to be formatted`,
         ignoreFocusOut: true,
