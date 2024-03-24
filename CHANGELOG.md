@@ -1,5 +1,11 @@
 # format-files-by-ignores
 
+## 1.0.8
+
+### Patch Changes
+
+- [`4104a23`](https://github.com/xiaohuohumax/format-files-by-ignores/commit/4104a2374a922227e578a777009069cf7eac8aa9) Thanks [@xiaohuohumax](https://github.com/xiaohuohumax)! - BUG 修复: 遍历目标文件夹时可能存在文件不存导致任务失败
+
 ## 1.0.7
 
 ### Patch Changes
