@@ -2,7 +2,7 @@
   "name": "format-files-by-ignores",
   "displayName": "Format Files By Ignores",
   "description": "Format files by ignore files (.gitignore, ...)",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "private": true,
   "icon": "icon.png",
   "publisher": "xiaohuohumax",

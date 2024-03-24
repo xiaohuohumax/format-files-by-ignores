@@ -1,5 +1,11 @@
 # format-files-by-ignores
 
+## 1.0.7
+
+### Patch Changes
+
+- [`067b982`](https://github.com/xiaohuohumax/format-files-by-ignores/commit/067b9828e9e8a9821739c951f996557a22611907) Thanks [@xiaohuohumax](https://github.com/xiaohuohumax)! - BUG 修复: 工作空间多文件夹时右键批量格式化异常(未选择文件时让用户自己选)
+
 ## 1.0.6
 
 ### Patch Changes
