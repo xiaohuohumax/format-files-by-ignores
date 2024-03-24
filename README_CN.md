@@ -1,15 +1,12 @@
-<div align="center">
-  <img src="./icon.png" style="width:7em" />
-  <p>
-      <img alt="Downloads" src="https://img.shields.io/visual-studio-marketplace/d/xiaohuohumax.format-files-by-ignores">
-      <img alt="Installs" src="https://img.shields.io/visual-studio-marketplace/i/xiaohuohumax.format-files-by-ignores">
-    <img alt="License" src="https://img.shields.io/github/license/xiaohuohumax/format-files-by-ignores.svg"/>
-    <img alt="Last Commit" src="https://img.shields.io/github/last-commit/xiaohuohumax/format-files-by-ignores.svg"/>
-    <img alt="Stars" src="https://img.shields.io/github/stars/xiaohuohumax/format-files-by-ignores.svg"/>
-  </p>
-</div>
-
 # Format Files By Ignore
+
+<p>
+  <img alt="Downloads" src="https://img.shields.io/visual-studio-marketplace/d/xiaohuohumax.format-files-by-ignores">
+  <img alt="Installs" src="https://img.shields.io/visual-studio-marketplace/i/xiaohuohumax.format-files-by-ignores">
+  <img alt="License" src="https://img.shields.io/github/license/xiaohuohumax/format-files-by-ignores.svg"/>
+  <img alt="Last Commit" src="https://img.shields.io/github/last-commit/xiaohuohumax/format-files-by-ignores.svg"/>
+  <img alt="Stars" src="https://img.shields.io/github/stars/xiaohuohumax/format-files-by-ignores.svg"/>
+</p>
 
 [English](./README.md)
 
@@ -21,7 +18,7 @@ VSCode插件：依据 ignore 文件筛选文件，然后批量格式化文件（
 
 VSCode 插件搜索 `Format Files By Ignores`
 
-![ext.png](./images/ext.png)
+![ext.png](https://cdn.jsdelivr.net/gh/xiaohuohumax/format-files-by-ignores/images/ext.png)
 
 ## 使用
 
@@ -42,9 +39,9 @@ VSCode 插件搜索 `Format Files By Ignores`
   
 ## 演示
 
-![folder.gif](./images/folder.gif)
+![folder.gif](https://cdn.jsdelivr.net/gh/xiaohuohumax/format-files-by-ignores/images/folder.gif)
 
-![workspace.gif](./images/workspace.gif)
+![workspace.gif](https://cdn.jsdelivr.net/gh/xiaohuohumax/format-files-by-ignores/images/workspace.gif)
 
 ## 链接
 

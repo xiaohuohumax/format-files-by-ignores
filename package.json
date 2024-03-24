@@ -22,6 +22,9 @@
     "gitignore",
     "format-folder",
     "format-wrokspace",
+    "format folder",
+    "format workspace",
+    "batch format files",
     "formatters"
   ],
   "main": "./out/extension.js",
