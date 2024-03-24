@@ -88,8 +88,7 @@
     "pretest": "npm run compile && npm run lint:fix",
     "lint:fix": "eslint --ext .ts,.mts,.d.ts --fix .",
     "changeset": "changeset",
-    "vsce:publish": "vsce publish",
-    "vsce:package": "vsce package"
+    "vsce-publish": "vsce publish"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.0",
