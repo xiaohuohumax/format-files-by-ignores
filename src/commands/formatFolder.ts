@@ -44,11 +44,17 @@ export class FormatFolder extends Command {
     // 打开输出面板
     Logger.show(true);
 
+    const extensions: string[] = [];
+
+    if (FormatConfig.config.useIgnoreExtension) {
+      extensions.push(...FormatConfig.config.ignoreExtension);
+    }
+
     // 筛选全部需要格式化的文件
     const files = filterFolderByignore(
       folder.fsPath,
       // 全局扩展
-      FormatConfig.config.ignoreExtension,
+      extensions,
       // ignore 文件名称
       FormatConfig.config.ignoreFileNames
     );

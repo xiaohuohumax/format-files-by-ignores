@@ -32,6 +32,12 @@
     "configuration": [
       {
         "properties": {
+          "formatFilesByIgnores.useIgnoreExtension": {
+            "scope": "resource",
+            "type": "boolean",
+            "description": "Is use ignore extension ?",
+            "default": true
+          },
           "formatFilesByIgnores.ignoreExtension": {
             "scope": "resource",
             "type": "array",

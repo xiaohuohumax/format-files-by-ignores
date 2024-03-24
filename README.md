@@ -29,6 +29,8 @@ VSCode Extensions Select `Format Files By Ignores`
 
 ## ⚙ Options
 
+- `formatFilesByIgnores.useignoreExtension`: Is use ignore extension ?
+  - `default`: true
 - `formatFilesByIgnores.ignoreExtension`: Ignore extension rules (root folder)
   - `default`: [ "node_modules", ".vscode", ".git", "dist" ]
 - `formatFilesByIgnores.ignoreFileNames`: Ignore files name

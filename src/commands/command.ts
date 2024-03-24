@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { Message } from '../util/message';
 import { OperationAborted } from '../error';
 import { Logger } from '../util/logger';
+import { FormatConfig } from '../config';
 
 /**
  * 配置
@@ -49,6 +50,7 @@ export abstract class Command {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const callback = async (...args: any[]) => {
+      Logger.info(JSON.stringify(FormatConfig.config));
       Logger.debug(`Command '${this.options.key}' callback args: ${args}`);
       try {
         return await this.callback(...args);
