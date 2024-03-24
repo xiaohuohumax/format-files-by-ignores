@@ -6,7 +6,7 @@ import { OperationAborted } from '../error';
 import { FormatConfig } from '../config';
 import { Logger } from '../util/logger';
 import { Message } from '../util/message';
-import { Command } from "./command";
+import { Command } from './command';
 import path from 'path';
 
 /**
@@ -14,51 +14,54 @@ import path from 'path';
  */
 export class FormatFolder extends Command {
 
-    /**
-     * 格式化开始前确认
-     * @param folder 文件夹路径
-     * @throws {OperationAborted} 取消中断
-     */
-    private async confirmStartFormat(folder: string) {
-        const result = await window.showQuickPick([`Yes`, `No`], {
-            title: `Start formatting workspace (${path.basename(folder)}) files?`,
-            ignoreFocusOut: true,
-            placeHolder: `Please check '${Logger.outputchannelName}' output for list of files`,
-        });
+  /**
+   * 格式化开始前确认
+   * @param folder 文件夹路径
+   * @throws {OperationAborted} 取消中断
+   */
+  private async confirmStartFormat(folder: string) {
+    const result = await window.showQuickPick(['Yes', 'No'], {
+      title: `Start formatting workspace (${path.basename(folder)}) files?`,
+      ignoreFocusOut: true,
+      placeHolder: `Please check '${Logger.outputChannelName}' output for list of files`,
+    });
 
-        if (!result || result === 'No') {
-            // 中断放弃
-            throw new OperationAborted('Format cancelled');
-        }
+    if (!result || result === 'No') {
+      // 中断放弃
+      throw new OperationAborted('Format cancelled');
+    }
+  }
+
+  async callback(folder: Uri): Promise<void> {
+    Logger.debug('Format folder root: ' + folder);
+
+    // 工作空间存在多个文件夹时根目录右键选择异常 {}
+    // 修正为：让用户自行选择工作空间文件夹
+    if (Object.keys(folder).length === 0) {
+      folder = (await selectWorkspace()).uri;
     }
 
-    async callback(folder: Uri): Promise<void> {
+    // 打开输出面板
+    Logger.show(true);
 
-        // 工作空间存在多个文件夹时根目录右键选择异常 {}
-        // 修正为：让用户自行选择文件夹
-        folder = (await selectWorkspace(folder)).uri;
+    // 筛选全部需要格式化的文件
+    const files = filterFolderByignore(
+      folder.fsPath,
+      // 全局扩展
+      FormatConfig.config.ignoreExtension,
+      // ignore 文件名称
+      FormatConfig.config.ignoreFileNames
+    );
 
-        // 清空日志, 打开输出面板
-        Logger.outputChannel.show(true);
+    // 供用户检查
+    Logger.info('Format files:');
+    files.forEach(files => Logger.info(files));
 
-        // 筛选全部需要格式化的文件
-        const files = filterFolderByignore(
-            folder.fsPath,
-            // 全局扩展
-            FormatConfig.config.ignoreExtension,
-            // ignore 文件名称
-            FormatConfig.config.ignoreFileNames
-        );
+    // 用户确认
+    await this.confirmStartFormat(folder.fsPath);
 
-        // 供用户检查
-        Logger.instance.info('Format files:');
-        files.forEach(files => Logger.instance.info(files));
-
-        // 用户确认
-        await this.confirmStartFormat(folder.fsPath);
-
-        // 开始格式化
-        await formatDocs(files.map(Uri.file));
-        Message.showInformationMessage('Format files completed');
-    }
+    // 开始格式化
+    await formatDocs(files.map(Uri.file));
+    Message.showInformationMessage('Format files completed');
+  }
 }

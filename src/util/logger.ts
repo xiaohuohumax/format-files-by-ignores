@@ -1,61 +1,52 @@
-import { LogLevel, window } from "vscode";
-
-export interface LoggerOptions {
-    format: string
-}
+import { LogLevel, window } from 'vscode';
 
 /**
  * 日志
  */
 export class Logger {
 
-    // ouput 显示名称
-    public static readonly outputchannelName = 'Format Files By Ignores';
+  public static readonly outputChannelName = import.meta.env.VITE_OUTPUT_CHANNEL_NAME;
 
-    // output 输出
-    public static readonly outputChannel = window.createOutputChannel(Logger.outputchannelName);
+  // output 输出
+  private static readonly outputChannel = window.createOutputChannel(Logger.outputChannelName);
 
-    // 等级
-    // todo 通过 env 获取
-    public static logLevel: LogLevel = LogLevel.Debug;
+  // 日志级别
+  public static logLevel: LogLevel = LogLevel[import.meta.env.VITE_LOG_LEVEL];
 
-    // 显示格式
-    public static instance: Logger = new Logger({
-        format: ':time :level: :msg'
-    });
+  public static info(msg: string) {
+    Logger.log(LogLevel.Info, msg);
+  }
 
-    constructor(private options: LoggerOptions) { }
+  public static debug(msg: string) {
+    Logger.log(LogLevel.Debug, msg);
+  }
 
-    public info(msg: string) {
-        this.log(LogLevel.Info, msg);
+  public static warning(msg: string) {
+    Logger.log(LogLevel.Warning, msg);
+  }
+
+  public static error(msg: string) {
+    Logger.log(LogLevel.Error, msg);
+  }
+
+  public static log(level: LogLevel, msg: string) {
+    if (Logger.logLevel > level || Logger.logLevel === LogLevel.Off) {
+      return;
     }
+    const replaces: [string, string][] = [
+      [':time', new Date().toLocaleString()],
+      [':msg', msg],
+      [':level', LogLevel[level].padStart(6, ' ')]
+    ];
+    const line = replaces.reduce(
+      (f, r) => f.replace(r[0], r[1]),
+      import.meta.env.VITE_LOG_FORMAT
+    );
+    Logger.outputChannel.appendLine(line);
+  }
 
-    public debug(msg: string) {
-        this.log(LogLevel.Debug, msg);
-    }
-
-    public warning(msg: string) {
-        this.log(LogLevel.Warning, msg);
-    }
-
-    public error(msg: string) {
-        this.log(LogLevel.Error, msg);
-    }
-
-    public log(level: LogLevel, msg: string) {
-        if (Logger.logLevel > level || Logger.logLevel === LogLevel.Off) {
-            return;
-        }
-        const replaces: [string, string][] = [
-            [':time', new Date().toLocaleString()],
-            [':msg', msg],
-            [':level', LogLevel[level]]
-        ];
-        const line = replaces.reduce(
-            (f, r) => f.replace(r[0], r[1]),
-            this.options.format
-        );
-        Logger.outputChannel.appendLine(line);
-    }
+  public static show(preserveFocus?: boolean) {
+    Logger.outputChannel.show(preserveFocus);
+  }
 
 }

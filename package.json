@@ -83,13 +83,13 @@
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
-    "lint": "eslint src --ext ts",
-    "test": "vscode-test",
+    "compile": "vite build",
+    "watch": "vite build --watch --mode development --emptyOutDir",
+    "pretest": "npm run compile && npm run lint:fix",
+    "lint:fix": "eslint --ext .ts,.mts,.d.ts --fix .",
     "changeset": "changeset",
-    "vsce-publish": "vsce publish"
+    "vsce:publish": "vsce publish",
+    "vsce:package": "vsce package"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.0",
@@ -97,13 +97,14 @@
     "@types/mocha": "^10.0.6",
     "@types/node": "18.x",
     "@types/vscode": "^1.87.0",
-    "@typescript-eslint/eslint-plugin": "^7.0.2",
-    "@typescript-eslint/parser": "^7.0.2",
+    "@typescript-eslint/eslint-plugin": "^7.3.1",
+    "@typescript-eslint/parser": "^7.3.1",
     "@vscode/test-cli": "^0.0.6",
     "@vscode/test-electron": "^2.3.9",
     "@vscode/vsce": "^2.24.0",
     "eslint": "^8.56.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vite": "^5.2.5"
   },
   "dependencies": {
     "ignore": "^5.3.1"

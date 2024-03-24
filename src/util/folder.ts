@@ -10,40 +10,46 @@ import { Logger } from './logger';
  * @param ignoreFileNames ignore 文件名称
  * @returns 
  */
-export function filterFolderByignore(root: string, ext: string[], ignoreFileNames: string[]): string[] {
-    const res: string[] = [];
+export function filterFolderByignore(
+  root: string, ext: string[], ignoreFileNames: string[]
+): string[] {
 
-    if (!fs.existsSync(root)) {
-        return res;
+  const res: string[] = [];
+
+  if (!fs.existsSync(root)) {
+    Logger.debug('Folder not exists: ' + root);
+    return res;
+  }
+
+  const filter = ignore({ allowRelativePaths: true }).add(ext);
+
+  // 获取过滤规则
+  for (const ignoreFileName of ignoreFileNames) {
+    const ignoreFile = path.resolve(root, ignoreFileName);
+    if (fs.existsSync(ignoreFile)) {
+      Logger.debug('Find ignore file: ' + ignoreFile);
+      filter.add(fs.readFileSync(ignoreFile, 'utf-8'));
     }
+  }
 
-    const filter = ignore({ allowRelativePaths: true }).add(ext);
+  // 前置文件夹过滤
+  const files = filter.filter(fs.readdirSync(root));
 
-    // 获取过滤规则
-    for (const ignoreFileName of ignoreFileNames) {
-        const ignoreFile = path.resolve(root, ignoreFileName);
-        if (fs.existsSync(ignoreFile)) {
-            filter.add(fs.readFileSync(ignoreFile, 'utf-8'));
-        }
+  for (const file of files.map(f => path.join(root, f))) {
+    // 文件可能不存在异常
+    if (!fs.existsSync(file)) {
+      Logger.debug('File not exists: ' + file);
+      continue;
     }
-
-    // 前置文件夹过滤
-    const files = filter.filter(fs.readdirSync(root));
-
-    for (const file of files.map(f => path.join(root, f))) {
-        // 文件可能不存在异常
-        if (!fs.existsSync(file)) {
-            continue;
-        }
-        const fileStat = fs.statSync(file);
-        if (fileStat.isDirectory()) {
-            // 递归遍历
-            res.push(...filterFolderByignore(file, [], ignoreFileNames));
-        } else {
-            res.push(file);
-        }
+    const fileStat = fs.statSync(file);
+    if (fileStat.isDirectory()) {
+      // 递归遍历
+      res.push(...filterFolderByignore(file, [], ignoreFileNames));
+    } else {
+      res.push(file);
     }
+  }
 
-    // 后置兜底过滤
-    return filter.filter(res);
+  // 后置兜底过滤
+  return filter.filter(res);
 }
