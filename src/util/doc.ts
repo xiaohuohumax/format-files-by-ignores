@@ -1,6 +1,7 @@
 import { ProgressLocation, Uri, ViewColumn, commands, window, workspace } from 'vscode';
 import { OperationAborted } from '../error';
 import { Logger } from './logger';
+import path from 'path';
 
 /**
  * 尝试打开文档
@@ -10,6 +11,7 @@ import { Logger } from './logger';
 export async function tryOpenDoc(doc: Uri) {
   try {
     return await workspace.openTextDocument(doc.fsPath);
+    // eslint-disable-next-line no-empty
   } catch (_) { }
 }
 
@@ -44,17 +46,48 @@ export async function formatDocs(docs: Uri[]) {
       title: 'Formatting documents'
     },
     async (progress, token) => {
-      for (const file of docs) {
+      let index = 0;
+      for (const doc of docs) {
         if (token.isCancellationRequested) {
           // 中断取消
           throw new OperationAborted('Format cancelled');
         }
-        progress.report({ message: file.fsPath, increment });
-        Logger.debug('Format:', file);
-        await formatDoc(file);
+        progress.report({
+          message: `(${++index}/${docs.length}) ${path.basename(doc.fsPath)}`
+          , increment
+        });
+        Logger.debug('Format:', doc);
+        await formatDoc(doc);
       }
       progress.report({ increment: 100 });
     }
   );
 }
 
+export interface DocStatExt {
+  [key: string]: number
+}
+
+export interface DocStat {
+  count: number
+  ext: DocStatExt
+}
+
+/**
+ * 统计文档信息
+ * @param docs 文档集合
+ */
+export function statDoc(docs: Uri[]): DocStat {
+  const res: DocStat = {
+    count: docs.length,
+    ext: {}
+  };
+
+  for (const doc of docs) {
+    let ext = path.extname(doc.fsPath);
+    ext = ext || path.basename(doc.fsPath);
+    res.ext[ext] = ++(res.ext[ext]) || 1;
+  }
+
+  return res;
+}

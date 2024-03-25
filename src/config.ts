@@ -15,6 +15,10 @@ export interface Config {
    * 比如: .gitignore
    */
   ignoreFileNames: string[]
+  /**
+   * 格式化完成后是否折叠资源管理器文件夹
+   */
+  collapseExplorerFolders: boolean
 }
 
 /**
@@ -23,6 +27,7 @@ export interface Config {
 export class FormatConfig {
   public static get config(): Config {
     return workspace.getConfiguration().get<Config>('formatFilesByIgnores', {
+      collapseExplorerFolders: true,
       useIgnoreExtension: true,
       ignoreExtension: [],
       ignoreFileNames: []

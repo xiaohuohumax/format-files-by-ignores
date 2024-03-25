@@ -40,6 +40,8 @@ export abstract class Command {
     Logger.error(error.stack ?? error.message);
   }
 
+  async finally() { }
+
   /**
    * 注册指令
    * @param context 上下文
@@ -48,12 +50,14 @@ export abstract class Command {
     Logger.debug('Register command:', this.options.key);
 
     const callback = async (...args: unknown[]) => {
-      Logger.debug(JSON.stringify(FormatConfig.config));
+      Logger.debug('Format config:', JSON.stringify(FormatConfig.config));
       Logger.debug('Command:', this.options.key, 'callback args:', args);
       try {
         return await this.callback(...args);
       } catch (error) {
         await this.catch(error as Error);
+      } finally {
+        this.finally();
       }
     };
 

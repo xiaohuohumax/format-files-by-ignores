@@ -34,12 +34,14 @@ VSCode 插件搜索 `Format Files By Ignores`
 
 ## 配置
 
-- `formatFilesByIgnores.useignoreExtension`: 是否使用 过滤规则扩展
+- `formatFilesByIgnores.useignoreExtension`: 是否使用过滤规则扩展?
   - `default`: true
 - `formatFilesByIgnores.ignoreExtension`: 文件夹根目录 `ignore` 过滤规则扩展
   - `default`: [ "node_modules", ".vscode", ".git", "dist" ]
 - `formatFilesByIgnores.ignoreFileNames`: `Ignore` 文件的名称
   - `default`: [ ".gitignore", ".formatignore" ]
+- `formatFilesByIgnores.collapseExplorerFolders`: 格式化完成后是否折叠资源管理器文件夹?
+  - `default`: true
 
 ## 演示
 

@@ -2,11 +2,11 @@ import { WorkspaceFolder, window, workspace } from 'vscode';
 import { OperationAborted } from '../error';
 
 /**
- * 选择工作空间
+ * 选择工作空间文件夹
  * @throws {OperationAborted} workspace 未打开, 用户取消
  * @returns 
  */
-export async function selectWorkspace(): Promise<WorkspaceFolder> {
+export async function switchWorkspaceFolder(): Promise<WorkspaceFolder> {
   const wps = workspace.workspaceFolders;
 
   // 未打开工作空间

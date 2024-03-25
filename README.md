@@ -37,6 +37,8 @@ VSCode Extensions Select `Format Files By Ignores`
   - `default`: [ "node_modules", ".vscode", ".git", "dist" ]
 - `formatFilesByIgnores.ignoreFileNames`: Ignore files name
   - `default`: [ ".gitignore", ".formatignore" ]
+- `formatFilesByIgnores.collapseExplorerFolders`: Whether to collapse the explorer folder after formatting?
+  - `default`: true
 
 ## 📹 Demo
 

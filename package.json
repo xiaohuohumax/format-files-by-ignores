@@ -32,10 +32,16 @@
     "configuration": [
       {
         "properties": {
+          "formatFilesByIgnores.collapseExplorerFolders": {
+            "scope": "resource",
+            "type": "boolean",
+            "description": "Whether to collapse the explorer folder after formatting?",
+            "default": true
+          },
           "formatFilesByIgnores.useIgnoreExtension": {
             "scope": "resource",
             "type": "boolean",
-            "description": "Is use ignore extension ?",
+            "description": "Is use ignore extension?",
             "default": true
           },
           "formatFilesByIgnores.ignoreExtension": {
