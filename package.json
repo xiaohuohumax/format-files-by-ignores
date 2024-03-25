@@ -60,7 +60,8 @@
             },
             "description": "Ignore files name",
             "default": [
-              ".gitignore"
+              ".gitignore",
+              ".formatignore"
             ]
           }
         }
@@ -94,7 +95,8 @@
     "pretest": "npm run compile && npm run lint:fix",
     "lint:fix": "eslint --ext .ts,.mts,.d.ts --fix .",
     "changeset": "changeset",
-    "vsce-publish": "vsce publish"
+    "vsce-publish": "vsce publish",
+    "vsce-package": "vsce package"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.0",

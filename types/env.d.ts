@@ -8,9 +8,10 @@ interface ImportMetaEnv {
    * 日志打印格式
    * 
    * ```
-   * :time  时间戳
-   * :level 等级
-   * :msg   消息
+   * :time    时间戳
+   * :level   等级
+   * :msg     消息
+   * :caller  调用者信息
    * ```
    */
   readonly VITE_LOG_FORMAT: string

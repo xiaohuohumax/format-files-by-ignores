@@ -5,6 +5,7 @@ images/**
 env/**
 types/**
 .gitignore
+.formatignore
 .yarnrc
 vsc-extension-quickstart.md
 **/tsconfig.json

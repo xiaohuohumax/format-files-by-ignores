@@ -8,7 +8,7 @@ import { Logger } from '../util/logger';
 export class FilterWorkspace extends FormatFolder {
   async callback(): Promise<void> {
     const wp = await selectWorkspace();
-    Logger.debug('Format workspace root: ' + wp.uri);
+    Logger.debug('Format workspace root:', wp.uri);
     // 开始格式化
     await super.callback(wp.uri);
   }

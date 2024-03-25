@@ -25,8 +25,7 @@ export abstract class Command {
    * 命令回调
    * @param _args 任意回调参数
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async callback(..._args: any[]): Promise<void> { }
+  async callback(..._args: unknown[]): Promise<void> { }
 
   /**
    * 回调抛出异常时执行
@@ -46,12 +45,11 @@ export abstract class Command {
    * @param context 上下文
    */
   async activate(context: vscode.ExtensionContext) {
-    Logger.debug(`Register command: ${this.options.key}`);
+    Logger.debug('Register command:', this.options.key);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const callback = async (...args: any[]) => {
-      Logger.info(JSON.stringify(FormatConfig.config));
-      Logger.debug(`Command '${this.options.key}' callback args: ${args}`);
+    const callback = async (...args: unknown[]) => {
+      Logger.debug(JSON.stringify(FormatConfig.config));
+      Logger.debug('Command:', this.options.key, 'callback args:', args);
       try {
         return await this.callback(...args);
       } catch (error) {
@@ -68,6 +66,6 @@ export abstract class Command {
    * 注销指令
    */
   async deactivate() {
-    Logger.debug('Deactivate command: ' + this.options.key);
+    Logger.debug('Deactivate command:', this.options.key);
   }
 }

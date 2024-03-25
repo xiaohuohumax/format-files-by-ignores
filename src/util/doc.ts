@@ -50,7 +50,7 @@ export async function formatDocs(docs: Uri[]) {
           throw new OperationAborted('Format cancelled');
         }
         progress.report({ message: file.fsPath, increment });
-        Logger.debug('Format: ' + file);
+        Logger.debug('Format:', file);
         await formatDoc(file);
       }
       progress.report({ increment: 100 });

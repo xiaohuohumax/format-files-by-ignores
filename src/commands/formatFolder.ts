@@ -33,7 +33,7 @@ export class FormatFolder extends Command {
   }
 
   async callback(folder: Uri): Promise<void> {
-    Logger.debug('Format folder root: ' + folder);
+    Logger.debug('Format folder root:', folder);
 
     // 工作空间存在多个文件夹时根目录右键选择异常 {}
     // 修正为：让用户自行选择工作空间文件夹
@@ -60,7 +60,9 @@ export class FormatFolder extends Command {
     );
 
     // 供用户检查
-    Logger.info('Format files:');
+    Logger.info('Format files (please check):');
+    const maxLength = Math.max(...files.map(f => f.length));
+    Logger.info(''.padEnd(maxLength, '-'));
     files.forEach(files => Logger.info(files));
 
     // 用户确认

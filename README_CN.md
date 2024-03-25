@@ -22,13 +22,15 @@ VSCode 插件搜索 `Format Files By Ignores`
 
 ## 使用
 
-+ 格式文件夹（folder）
++ **格式文件夹（folder）**
     + 文件夹上 `右键`
     + 选择 `Start Format Folder By Ignores 📂`
-+ 格式工作空间（workspace）
++ **格式工作空间（workspace）**
     + 调用命令面板 `ctrl + shift + p`
     + 搜索 `Start Format Workspace By Ignores 📂`
     + 选择需要批量格式的 `工作空间（workspace）`
++ **自定义ignore文件**
+    + 文件夹下创建名叫 `.formatignore` 的文件, 接着写入过滤规则(规则和 `.gitignore` 相同)
 
 ## 配置
 
@@ -37,8 +39,8 @@ VSCode 插件搜索 `Format Files By Ignores`
 - `formatFilesByIgnores.ignoreExtension`: 文件夹根目录 `ignore` 过滤规则扩展
   - `default`: [ "node_modules", ".vscode", ".git", "dist" ]
 - `formatFilesByIgnores.ignoreFileNames`: `Ignore` 文件的名称
-  - `default`: [ ".gitignore" ]
-  
+  - `default`: [ ".gitignore", ".formatignore" ]
+
 ## 演示
 
 ![folder.gif](https://cdn.jsdelivr.net/gh/xiaohuohumax/format-files-by-ignores/images/folder.gif)

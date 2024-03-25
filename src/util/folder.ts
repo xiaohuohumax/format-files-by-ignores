@@ -17,7 +17,7 @@ export function filterFolderByignore(
   const res: string[] = [];
 
   if (!fs.existsSync(root)) {
-    Logger.debug('Folder not exists: ' + root);
+    Logger.debug('Folder not exists:', root);
     return res;
   }
 
@@ -27,7 +27,7 @@ export function filterFolderByignore(
   for (const ignoreFileName of ignoreFileNames) {
     const ignoreFile = path.resolve(root, ignoreFileName);
     if (fs.existsSync(ignoreFile)) {
-      Logger.debug('Find ignore file: ' + ignoreFile);
+      Logger.debug('Find ignore file:', ignoreFile);
       filter.add(fs.readFileSync(ignoreFile, 'utf-8'));
     }
   }
@@ -38,7 +38,7 @@ export function filterFolderByignore(
   for (const file of files.map(f => path.join(root, f))) {
     // 文件可能不存在异常
     if (!fs.existsSync(file)) {
-      Logger.debug('File not exists: ' + file);
+      Logger.debug('File not exists:', file);
       continue;
     }
     const fileStat = fs.statSync(file);

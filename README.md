@@ -21,11 +21,13 @@ VSCode Extensions Select `Format Files By Ignores`
 ## 📄 Usage
 
 - **Format Workspace**
-  - Open command pallette (Ctrl + Shift + P)
-  - Enter "Start Format Workspace By Ignores 📂"
+  - Open command pallette (`Ctrl + Shift + P`)
+  - Enter `Start Format Workspace By Ignores 📂`
 - **Format Folder**
-  - Right click a folder
-  - Select "Start Format Folder By Ignores 📂"
+  - `Right` click a folder
+  - Select `Start Format Folder By Ignores 📂`
+- **Custom Ignore File**
+  - Create a file called `.formatignore` under the folder, and then write the ignore rules (like `.gitignore`)
 
 ## ⚙ Options
 
@@ -34,7 +36,7 @@ VSCode Extensions Select `Format Files By Ignores`
 - `formatFilesByIgnores.ignoreExtension`: Ignore extension rules (root folder)
   - `default`: [ "node_modules", ".vscode", ".git", "dist" ]
 - `formatFilesByIgnores.ignoreFileNames`: Ignore files name
-  - `default`: [ ".gitignore" ]
+  - `default`: [ ".gitignore", ".formatignore" ]
 
 ## 📹 Demo
 

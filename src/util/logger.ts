@@ -13,36 +13,59 @@ export class Logger {
   // 日志级别
   public static logLevel: LogLevel = LogLevel[import.meta.env.VITE_LOG_LEVEL];
 
-  public static info(msg: string) {
-    Logger.log(LogLevel.Info, msg);
+  public static info(...msgs: unknown[]) {
+    Logger.print(LogLevel.Info, ...msgs);
   }
 
-  public static debug(msg: string) {
-    Logger.log(LogLevel.Debug, msg);
+  public static debug(...msgs: unknown[]) {
+    Logger.print(LogLevel.Debug, ...msgs);
   }
 
-  public static warning(msg: string) {
-    Logger.log(LogLevel.Warning, msg);
+  public static warning(...msgs: unknown[]) {
+    Logger.print(LogLevel.Warning, ...msgs);
   }
 
-  public static error(msg: string) {
-    Logger.log(LogLevel.Error, msg);
+  public static error(...msgs: unknown[]) {
+    Logger.print(LogLevel.Error, ...msgs);
   }
 
-  public static log(level: LogLevel, msg: string) {
+  public static log(level: LogLevel, ...msgs: unknown[]) {
+    Logger.print(level, ...msgs);
+  }
+
+  private static print(level: LogLevel, ...msgs: unknown[]) {
     if (Logger.logLevel > level || Logger.logLevel === LogLevel.Off) {
       return;
     }
+
+    // 简单获取调用信息
+    let caller = '';
+    const stack = new Error().stack;
+    if (stack) {
+      caller = stack.split('\n')[3]?.replace(/\s*at\s*/i, '');
+    }
+
     const replaces: [string, string][] = [
+      // 时间
       [':time', new Date().toLocaleString()],
-      [':msg', msg],
-      [':level', LogLevel[level].padStart(6, ' ')]
+      // 消息主体
+      [':msg', msgs.join(' ')],
+      // 日志等级
+      [':level', LogLevel[level].padStart(7, ' ')],
+      // 调用者信息
+      [':caller', caller],
     ];
+
     const line = replaces.reduce(
-      (f, r) => f.replace(r[0], r[1]),
+      (f, [key, value]) => f.replace(key, value),
       import.meta.env.VITE_LOG_FORMAT
     );
+
     Logger.outputChannel.appendLine(line);
+  }
+
+  private static stack() {
+
   }
 
   public static show(preserveFocus?: boolean) {
