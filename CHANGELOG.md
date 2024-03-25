@@ -1,5 +1,11 @@
 # format-files-by-ignores
 
+## 1.4.0
+
+### Minor Changes
+
+- [`f5ba3f5`](https://github.com/xiaohuohumax/format-files-by-ignores/commit/f5ba3f55742af87a95ce7a41861f95521f41f80d) Thanks [@xiaohuohumax](https://github.com/xiaohuohumax)! - 添加文件统计信息, 添加格式化完成后是否折叠资源管理器文件夹配置
+
 ## 1.3.0
 
 ### Minor Changes
