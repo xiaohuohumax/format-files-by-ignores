@@ -17,7 +17,8 @@ export default defineConfig({
       output: {
         dir: 'out',
         format: 'cjs',
-        entryFileNames: 'extension.js'
+        preserveModules: true,
+        entryFileNames: '[name].js'
       }
     }
   }
