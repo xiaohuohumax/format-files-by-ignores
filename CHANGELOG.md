@@ -1,5 +1,11 @@
 # format-files-by-ignores
 
+## 1.3.0
+
+### Minor Changes
+
+- [`299f882`](https://github.com/xiaohuohumax/format-files-by-ignores/commit/299f882258fabed4e9eeae47ccad720e18012592) Thanks [@xiaohuohumax](https://github.com/xiaohuohumax)! - 默认 ignore 文件列表添加: .formatignore
+
 ## 1.2.0
 
 ### Minor Changes
