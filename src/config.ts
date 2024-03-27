@@ -1,6 +1,6 @@
 import { workspace } from 'vscode';
 
-export interface Config {
+export interface IConfig {
   /**
    * 添加是否开启忽略扩展
    */
@@ -19,18 +19,26 @@ export interface Config {
    * 格式化完成后是否折叠资源管理器文件夹
    */
   collapseExplorerFolders: boolean
+  /**
+   * 是否格式化 import 语句 (删除未使用参数, 按照规律排序)
+   */
+  organizeImports: boolean
 }
 
 /**
- * 全局配置
+ * 用户配置信息
  */
-export class FormatConfig {
-  public static get config(): Config {
-    return workspace.getConfiguration().get<Config>('formatFilesByIgnores', {
-      collapseExplorerFolders: true,
-      useIgnoreExtension: true,
-      ignoreExtension: [],
-      ignoreFileNames: []
-    });
+export class Config {
+  public static get get(): IConfig {
+    return workspace.getConfiguration().get<IConfig>(
+      'formatFilesByIgnores',
+      {
+        collapseExplorerFolders: true,
+        useIgnoreExtension: true,
+        ignoreExtension: [],
+        ignoreFileNames: [],
+        organizeImports: false
+      }
+    );
   }
 }

@@ -16,8 +16,6 @@
 
 VSCode Extensions Select `Format Files By Ignores`
 
-![ext.png](https://cdn.jsdelivr.net/gh/xiaohuohumax/format-files-by-ignores/images/ext.png)
-
 ## 📄 Usage
 
 - **Format Workspace**
@@ -28,6 +26,26 @@ VSCode Extensions Select `Format Files By Ignores`
   - Select `Start Format Folder By Ignores 📂`
 - **Custom Ignore File**
   - Create a file called `.formatignore` under the folder, and then write the ignore rules (like `.gitignore`)
+
+## Practical tips (ignore rule)
+
+### Exclude model
+  
+**For example:** Exclude all **svg** files
+
+```txt
+*.svg
+```
+
+### Include model
+
+**For example:** Only include **ts** files
+
+```txt
+*
+!src/**/
+!src/**/*.ts
+```
 
 ## ⚙ Options
 
@@ -40,12 +58,22 @@ VSCode Extensions Select `Format Files By Ignores`
 - `formatFilesByIgnores.collapseExplorerFolders`: Whether to collapse the explorer folder after formatting?
   - `default`: true
 
+## Ignore priority
+
+```txt
+ignoreExtension < ignoreFileNames
+
+ignoreFileNames[1] < ignoreFileNames[2]
+```
+
 ## 📹 Demo
 
-![folder.gif](https://cdn.jsdelivr.net/gh/xiaohuohumax/format-files-by-ignores/images/folder.gif)
+![folder.gif](https://cdn.jsdelivr.net/gh/xiaohuohumax/format-files-by-ignores/images/folder_1_5_0.gif)
 
-![workspace.gif](https://cdn.jsdelivr.net/gh/xiaohuohumax/format-files-by-ignores/images/workspace.gif)
-  
+![workspace.gif](https://cdn.jsdelivr.net/gh/xiaohuohumax/format-files-by-ignores/images/workspace_1_5_0.gif)
+
+![workspace.gif](https://cdn.jsdelivr.net/gh/xiaohuohumax/format-files-by-ignores/images/cancel_1_5_0.gif)
+
 ## 🔗 Link
 
 - [Homepage](https://github.com/xiaohuohumax/format-files-by-ignores#readme)

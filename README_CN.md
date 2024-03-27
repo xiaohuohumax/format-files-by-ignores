@@ -18,8 +18,6 @@ VSCode插件：依据 ignore 文件筛选文件，然后批量格式化文件（
 
 VSCode 插件搜索 `Format Files By Ignores`
 
-![ext.png](https://cdn.jsdelivr.net/gh/xiaohuohumax/format-files-by-ignores/images/ext.png)
-
 ## 使用
 
 + **格式文件夹（folder）**
@@ -32,6 +30,22 @@ VSCode 插件搜索 `Format Files By Ignores`
 + **自定义ignore文件**
     + 文件夹下创建名叫 `.formatignore` 的文件, 接着写入过滤规则(规则和 `.gitignore` 相同)
 
+## ignore 实用技巧
+
+### 排除模式 (例如: 排除全部 **svg** 文件)
+
+```txt
+*.svg
+```
+
+### 包含模式 (例如: 只包含 **ts** 文件)
+
+```txt
+*
+!src/**/
+!src/**/*.ts
+```
+
 ## 配置
 
 - `formatFilesByIgnores.useignoreExtension`: 是否使用过滤规则扩展?
@@ -43,11 +57,21 @@ VSCode 插件搜索 `Format Files By Ignores`
 - `formatFilesByIgnores.collapseExplorerFolders`: 格式化完成后是否折叠资源管理器文件夹?
   - `default`: true
 
+## ignore 优先级
+
+```txt
+ignoreExtension < ignoreFileNames
+
+ignoreFileNames[1] < ignoreFileNames[2]
+```
+
 ## 演示
 
-![folder.gif](https://cdn.jsdelivr.net/gh/xiaohuohumax/format-files-by-ignores/images/folder.gif)
+![folder.gif](https://cdn.jsdelivr.net/gh/xiaohuohumax/format-files-by-ignores/images/folder_1_5_0.gif)
 
-![workspace.gif](https://cdn.jsdelivr.net/gh/xiaohuohumax/format-files-by-ignores/images/workspace.gif)
+![workspace.gif](https://cdn.jsdelivr.net/gh/xiaohuohumax/format-files-by-ignores/images/workspace_1_5_0.gif)
+
+![workspace.gif](https://cdn.jsdelivr.net/gh/xiaohuohumax/format-files-by-ignores/images/cancel_1_5_0.gif)
 
 ## 链接
 

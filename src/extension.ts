@@ -1,27 +1,13 @@
-import * as vscode from 'vscode';
-import { Logger } from './util/logger';
-import { Command } from './commands/command';
-import { FormatFolder } from './commands/formatFolder';
-import { FilterWorkspace } from './commands/formatWorkspace';
+import cmds from '@/cmd';
+import log from '@/log';
+import { ExtensionContext } from 'vscode';
 
-const commands: Command[] = [
-  // 文件夹格式化
-  new FormatFolder({
-    key: 'formatFilesByIgnores.start.formatFolder'
-  }),
-  // 工作空间格式化
-  new FilterWorkspace({
-    key: 'formatFilesByIgnores.start.formatWorkspace'
-  })
-];
-
-export function activate(context: vscode.ExtensionContext) {
-  Logger.debug('activate');
-  // 注册命令
-  commands.forEach(c => c.activate(context));
+export async function activate(context: ExtensionContext) {
+  log.debug('activate');
+  cmds.forEach(c => c.activate(context));
 }
 
 export function deactivate() {
-  Logger.debug('deactivate');
-  commands.forEach(c => c.deactivate());
+  log.debug('deactivate');
+  cmds.forEach(c => c.deactivate());
 }

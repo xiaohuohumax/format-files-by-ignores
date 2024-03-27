@@ -1,25 +1,29 @@
+import path from 'path';
 import { defineConfig } from 'vite';
-import { dependencies } from './package.json';
 
 export default defineConfig({
   envDir: 'env',
+  resolve: {
+    alias: {
+      '#': path.resolve(__dirname, ''),
+      '@': path.resolve(__dirname, './src'),
+      '@components': path.resolve(__dirname, './src/components'),
+      '@utils': path.resolve(__dirname, './src/utils'),
+    }
+  },
   build: {
     minify: false,
     rollupOptions: {
       preserveEntrySignatures: 'strict',
       input: './src/extension.ts',
-      external: [
-        ...Object.keys(dependencies),
-        'vscode',
-        'fs',
-        'path'
-      ],
-      output: {
-        dir: 'out',
-        format: 'cjs',
-        preserveModules: true,
-        entryFileNames: '[name].js'
-      }
+      external: ['vscode'],
+      output: [
+        {
+          dir: 'out',
+          format: 'cjs',
+          entryFileNames: '[name].js'
+        }
+      ]
     }
   }
 });

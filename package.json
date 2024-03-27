@@ -69,6 +69,12 @@
               ".gitignore",
               ".formatignore"
             ]
+          },
+          "formatFilesByIgnores.organizeImports": {
+            "scope": "resource",
+            "type": "boolean",
+            "description": "Is organize imports?",
+            "default": false
           }
         }
       }
@@ -77,17 +83,18 @@
       {
         "command": "formatFilesByIgnores.start.formatFolder",
         "title": "Start Format Folder By Ignores 📂",
-        "enablement": "explorerViewletVisible && filesExplorerFocus && explorerResourceIsFolder"
+        "enablement": "explorerViewletVisible && filesExplorerFocus && explorerResourceIsFolder && !formatFilesByIgnores.formating"
       },
       {
         "command": "formatFilesByIgnores.start.formatWorkspace",
-        "title": "Start Format Workspace By Ignores 📂"
+        "title": "Start Format Workspace By Ignores 📂",
+        "enablement": "!formatFilesByIgnores.formating"
       }
     ],
     "menus": {
       "explorer/context": [
         {
-          "when": "explorerResourceIsFolder",
+          "when": "explorerResourceIsFolder && !formatFilesByIgnores.formating",
           "command": "formatFilesByIgnores.start.formatFolder",
           "group": "navigation@-1"
         }
@@ -97,6 +104,7 @@
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "vite build",
+    "build": "vite build",
     "watch": "vite build --watch --mode development --emptyOutDir",
     "pretest": "npm run compile && npm run lint:fix",
     "lint:fix": "eslint --ext .ts,.mts,.d.ts --fix .",
