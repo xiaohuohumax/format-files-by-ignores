@@ -1,5 +1,11 @@
 # format-files-by-ignores
 
+## 1.5.0
+
+### Minor Changes
+
+- [`5b2f5f6`](https://github.com/xiaohuohumax/format-files-by-ignores/commit/5b2f5f6d305eb933490c9e50c36ed225a3beb2b2) Thanks [@xiaohuohumax](https://github.com/xiaohuohumax)! - 检查列表显示位置变为临时文件, 修复 ignore 包含模式 BUG(!), 打包到单文件-准备 Web 端
+
 ## 1.4.0
 
 ### Minor Changes
