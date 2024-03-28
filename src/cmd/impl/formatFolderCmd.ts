@@ -35,6 +35,11 @@ export default class FormatFolderCmd extends ICmd {
   private formatFilesTmpDoc?: TextDocument;
 
   /**
+   * 目标文件夹路径
+   */
+  private folder: Uri = null!;
+
+  /**
    * 选择工作空间文件夹
    * @returns 
    */
@@ -56,10 +61,9 @@ export default class FormatFolderCmd extends ICmd {
 
   /**
    * 通过 ignore 配置过滤文件夹
-   * @param folder 目标文件夹
    * @returns 
    */
-  async filterFolder(folder: Uri): Promise<string[]> {
+  async filterFolder(): Promise<string[]> {
 
     /**
      * 通过文件夹路径获取 ignore 规则
@@ -93,7 +97,7 @@ export default class FormatFolderCmd extends ICmd {
        * @param lExt 扩展过滤规则
        * @returns 
        */
-    async function loopFilter(p: string[], lExt: string[]): Promise<string[]> {
+    const loopFilter = async (p: string[], lExt: string[]): Promise<string[]> => {
       if (token.isCancellationRequested) {
         // 取消搜索
         throw new ECancelAborted('Format cancelled');
@@ -101,7 +105,7 @@ export default class FormatFolderCmd extends ICmd {
 
       const res: string[] = [];
 
-      const pUri = Uri.joinPath(folder, ...p);
+      const pUri = Uri.joinPath(this.folder, ...p);
 
       if (!await fsUtil.isExists(pUri)) {
         log.error('Folder not exists:', pUri);
@@ -118,7 +122,7 @@ export default class FormatFolderCmd extends ICmd {
         progress.report({ message: file });
 
         // 判断文档是否存在
-        const fileUri = Uri.joinPath(folder, file);
+        const fileUri = Uri.joinPath(this.folder, file);
         if (!await fsUtil.isExists(fileUri)) {
           log.error('Document not exists:', fileUri);
           continue;
@@ -138,7 +142,7 @@ export default class FormatFolderCmd extends ICmd {
       }
 
       return res.concat(filter.filter(files));
-    }
+    };
 
     return await window.withProgress<string[]>(
       {
@@ -160,10 +164,9 @@ export default class FormatFolderCmd extends ICmd {
 
   /**
    * 格式化文档
-   * @param folder 文档根目录
    * @param docs 文档列表
    */
-  async formatDocs(folder: Uri, docs: string[]) {
+  async formatDocs(docs: string[]) {
     // 进度
     const increment = (1 / docs.length) * 100;
 
@@ -172,14 +175,14 @@ export default class FormatFolderCmd extends ICmd {
      * @param progress 进度条配置
      * @param token 取消令牌
      */
-    async function formatTask(progress: TaskProgress, token: CancellationToken) {
+    const formatTask = async (progress: TaskProgress, token: CancellationToken) => {
       for (let index = 0; index < docs.length; index++) {
         if (token.isCancellationRequested) {
           // 取消
           throw new ECancelAborted('Format cancelled');
         }
 
-        const doc = Uri.joinPath(folder, docs[index]);
+        const doc = Uri.joinPath(this.folder, docs[index]);
 
         log.debug('Format:', doc);
 
@@ -193,7 +196,7 @@ export default class FormatFolderCmd extends ICmd {
         log.print(level, formatStat ? 'Success:' : 'Fail:', doc);
       }
       progress.report({ increment: 100 });
-    }
+    };
 
     await window.withProgress(
       {
@@ -207,13 +210,12 @@ export default class FormatFolderCmd extends ICmd {
 
   /**
    * 格式化前用户确认
-   * @param folder 待格式化的文件夹
    */
-  async confirmStartFormat(folder: Uri) {
+  async confirmStartFormat() {
     const res = await showConfirmPick({
       sure: 'Start Format',
       cancel: 'Cancel',
-      title: `Start format workspace (${pathUtil.basename(folder)}) files?`,
+      title: `Start format workspace (${pathUtil.basename(this.folder)}) files?`,
       ignoreFocusOut: true,
       placeHolder: 'Please check file list',
       esc: 'Format cancelled'
@@ -249,14 +251,17 @@ export default class FormatFolderCmd extends ICmd {
 
   /**
    * 显示需要格式化的文档的统计信息
-   * @param folder 文件夹
    * @param docs 文档
    */
-  async showDocsStat(folder: Uri, docs: string[]) {
-    const docUris = docs.map(f => Uri.joinPath(folder, f));
+  async showDocsStat(docs: string[]) {
+    const docUris = docs.map(f => Uri.joinPath(this.folder, f));
     const { count: docCount, ext: docExt } = docUtil.statDocuments(docUris);
 
-    const extLines = [];
+    const statLines = [
+      'Folder: ' + pathUtil.basename(this.folder),
+      'Count: ' + docCount,
+      'Type:',
+    ];
 
     // 扩展名最大长度
     const extNameMaxLength = listUtil.maxLength(Object.keys(docExt));
@@ -267,7 +272,7 @@ export default class FormatFolderCmd extends ICmd {
     const extLineCount = 4;
     // [...10] == 3 => [[...3],[...3],[...3],[...1]]
     for (const group of listUtil.group(Object.entries(docExt), extLineCount)) {
-      extLines.push(
+      statLines.push(
         group.map(([key, count]) => {
           // 名称后补充
           const k = key.padEnd(extNameMaxLength, ' ');
@@ -280,7 +285,7 @@ export default class FormatFolderCmd extends ICmd {
     const tmpTitleLines = tmpTitle.split('\n');
 
     // 所有行最大长度
-    const lineMaxLength = listUtil.maxLength(tmpTitleLines.concat(docs).concat(extLines));
+    const lineMaxLength = listUtil.maxLength(tmpTitleLines.concat(docs).concat(statLines));
 
     // 分割线
     const lineHead = ''.padEnd(lineMaxLength, '=');
@@ -292,9 +297,7 @@ export default class FormatFolderCmd extends ICmd {
       lineHead,
       'Format files (please check):',
       lineHead,
-      'Count: ' + docCount,
-      'Type:',
-      ...extLines,
+      ...statLines,
       lineBody,
       ...docs,
       lineBody
@@ -311,14 +314,14 @@ export default class FormatFolderCmd extends ICmd {
     await commands.executeCommand('setContext', formatingWhenKey, true);
     // 工作空间存在多个文件夹时根目录右键选择异常 {}
     // 修正为：让用户自行选择工作空间文件夹
-    const folder = Object.keys(uri).length === 0
+    this.folder = Object.keys(uri).length === 0
       ? await this.selectWorkspaceFolderUri()
       : uri;
 
-    log.debug('Format folder root:', folder);
+    log.debug('Format folder root:', this.folder);
 
     // 筛选全部需要格式化的文件
-    const docs = await this.filterFolder(folder);
+    const docs = await this.filterFolder();
 
     // 未搜索到文件
     if (docs.length == 0) {
@@ -326,17 +329,17 @@ export default class FormatFolderCmd extends ICmd {
     }
 
     // 显示文档统计信息
-    await this.showDocsStat(folder, docs);
+    await this.showDocsStat(docs);
 
     // 用户确认
-    await this.confirmStartFormat(folder);
+    await this.confirmStartFormat();
 
     // 关闭临时文档
     await this.closeFormatFilesTmpDoc();
 
     try {
       // 开始格式化
-      await this.formatDocs(folder, docs);
+      await this.formatDocs(docs);
     } finally {
       if (Config.get.collapseExplorerFolders) {
         // 收起文件夹

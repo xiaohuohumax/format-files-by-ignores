@@ -13,6 +13,7 @@ export default defineConfig({
   },
   build: {
     minify: false,
+    sourcemap: true,
     rollupOptions: {
       preserveEntrySignatures: 'strict',
       input: './src/extension.ts',

@@ -28,6 +28,7 @@
     "formatters"
   ],
   "main": "./out/extension.js",
+  "browser": "./out/extension.js",
   "contributes": {
     "configuration": [
       {
@@ -103,10 +104,11 @@
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
-    "compile": "vite build",
-    "build": "vite build",
+    "compile": "npm run build",
+    "build": "vite build --emptyOutDir",
     "watch": "vite build --watch --mode development --emptyOutDir",
     "pretest": "npm run compile && npm run lint:fix",
+    "open-in-web": "vscode-test-web --extensionDevelopmentPath=. .",
     "lint:fix": "eslint --ext .ts,.mts,.d.ts --fix .",
     "changeset": "changeset",
     "vsce-publish": "vsce publish",
@@ -122,6 +124,7 @@
     "@typescript-eslint/parser": "^7.3.1",
     "@vscode/test-cli": "^0.0.6",
     "@vscode/test-electron": "^2.3.9",
+    "@vscode/test-web": "^0.0.53",
     "@vscode/vsce": "^2.24.0",
     "eslint": "^8.56.0",
     "typescript": "^5.3.3",
