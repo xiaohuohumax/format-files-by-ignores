@@ -1,5 +1,11 @@
 # format-files-by-ignores
 
+## 1.6.0
+
+### Minor Changes
+
+- [`e06a192`](https://github.com/xiaohuohumax/format-files-by-ignores/commit/e06a1925d904052a6b6550193d187fbaf3cdae36) Thanks [@xiaohuohumax](https://github.com/xiaohuohumax)! - 支持 Web 端
+
 ## 1.5.0
 
 ### Minor Changes
