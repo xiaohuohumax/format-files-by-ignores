@@ -1,0 +1,9 @@
+{
+  "formatFilesByIgnores.start.formatWorkspace.title": "通过 Ignore 配置格式化工作区 📂",
+  "formatFilesByIgnores.start.formatFolder.title": "通过 Ignore 配置格式化选定文件夹 📂",
+  "formatFilesByIgnores.configuration.collapseExplorerFolders.description": "格式化后是否折叠资源管理器文件夹？",
+  "formatFilesByIgnores.configuration.useIgnoreExtension.description": "是否使用 Ignore 扩展规则？",
+  "formatFilesByIgnores.configuration.ignoreExtension.description": "Ignore 扩展规则 (仅作用于所选文件夹下，优先级低于 Ignore 文件)",
+  "formatFilesByIgnores.configuration.ignoreFileNames.description": "Ignore 文件名称",
+  "formatFilesByIgnores.configuration.organizeImports.description": "是否整理 import 语句？"
+}

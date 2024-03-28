@@ -2,7 +2,7 @@ import { workspace } from 'vscode';
 import showEscPick, { EscPickOptions } from './showEscPick';
 
 /**
- * 通用工作空间选择器
+ * 通用工作区文件夹选择器
  * @param options 选择器配置
  * @returns 
  */

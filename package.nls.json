@@ -1,0 +1,9 @@
+{
+  "formatFilesByIgnores.start.formatWorkspace.title": "Start Format Workspace By Ignores 📂",
+  "formatFilesByIgnores.start.formatFolder.title": "Start Format Folder By Ignores 📂",
+  "formatFilesByIgnores.configuration.collapseExplorerFolders.description": "Whether to collapse the explorer folder after formatting?",
+  "formatFilesByIgnores.configuration.useIgnoreExtension.description": "Is use ignore extension?",
+  "formatFilesByIgnores.configuration.ignoreExtension.description": "Ignore extension rules (root folder)",
+  "formatFilesByIgnores.configuration.ignoreFileNames.description": "Ignore files name",
+  "formatFilesByIgnores.configuration.organizeImports.description": "Is organize imports?"
+}

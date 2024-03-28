@@ -29,6 +29,7 @@
   ],
   "main": "./out/extension.js",
   "browser": "./out/extension.js",
+  "l10n": "./l10n",
   "contributes": {
     "configuration": [
       {
@@ -36,13 +37,13 @@
           "formatFilesByIgnores.collapseExplorerFolders": {
             "scope": "resource",
             "type": "boolean",
-            "description": "Whether to collapse the explorer folder after formatting?",
+            "description": "%formatFilesByIgnores.configuration.collapseExplorerFolders.description%",
             "default": true
           },
           "formatFilesByIgnores.useIgnoreExtension": {
             "scope": "resource",
             "type": "boolean",
-            "description": "Is use ignore extension?",
+            "description": "%formatFilesByIgnores.configuration.useIgnoreExtension.description%",
             "default": true
           },
           "formatFilesByIgnores.ignoreExtension": {
@@ -51,7 +52,7 @@
             "items": {
               "type": "string"
             },
-            "description": "Ignore extension rules (root folder)",
+            "description": "%formatFilesByIgnores.configuration.ignoreExtension.description%",
             "default": [
               "node_modules",
               ".vscode",
@@ -65,7 +66,7 @@
             "items": {
               "type": "string"
             },
-            "description": "Ignore files name",
+            "description": "%formatFilesByIgnores.configuration.ignoreFileNames.description%",
             "default": [
               ".gitignore",
               ".formatignore"
@@ -74,7 +75,7 @@
           "formatFilesByIgnores.organizeImports": {
             "scope": "resource",
             "type": "boolean",
-            "description": "Is organize imports?",
+            "description": "%formatFilesByIgnores.configuration.organizeImports.description%",
             "default": false
           }
         }
@@ -83,12 +84,12 @@
     "commands": [
       {
         "command": "formatFilesByIgnores.start.formatFolder",
-        "title": "Start Format Folder By Ignores 📂",
+        "title": "%formatFilesByIgnores.start.formatFolder.title%",
         "enablement": "explorerViewletVisible && filesExplorerFocus && explorerResourceIsFolder && !formatFilesByIgnores.formating"
       },
       {
         "command": "formatFilesByIgnores.start.formatWorkspace",
-        "title": "Start Format Workspace By Ignores 📂",
+        "title": "%formatFilesByIgnores.start.formatWorkspace.title%",
         "enablement": "!formatFilesByIgnores.formating"
       }
     ],
@@ -117,13 +118,10 @@
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.1",
-    "@types/mocha": "^10.0.6",
     "@types/node": "18.x",
     "@types/vscode": "^1.87.0",
     "@typescript-eslint/eslint-plugin": "^7.3.1",
     "@typescript-eslint/parser": "^7.3.1",
-    "@vscode/test-cli": "^0.0.6",
-    "@vscode/test-electron": "^2.3.9",
     "@vscode/test-web": "^0.0.53",
     "@vscode/vsce": "^2.24.0",
     "eslint": "^8.56.0",

@@ -1,7 +1,7 @@
 import FormatFolderCmd from './impl/formatFolderCmd';
-import FormatWorkspaceCmd from './impl/formatWorkspaceCmd';
+import FormatWorkspaceFolderCmd from './impl/formatWorkspaceFolderCmd';
 
 export default [
   new FormatFolderCmd({ key: 'formatFilesByIgnores.start.formatFolder' }),
-  new FormatWorkspaceCmd({ key: 'formatFilesByIgnores.start.formatWorkspace' })
+  new FormatWorkspaceFolderCmd({ key: 'formatFilesByIgnores.start.formatWorkspace' })
 ];

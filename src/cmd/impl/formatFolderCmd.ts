@@ -9,7 +9,7 @@ import fsUtil from '@utils/fsUtil';
 import listUtil from '@utils/listUtil';
 import pathUtil from '@utils/pathUtil';
 import ignore from 'ignore';
-import { CancellationToken, FileType, LogLevel, Progress, ProgressLocation, TextDocument, Uri, commands, window } from 'vscode';
+import { CancellationToken, FileType, LogLevel, Progress, ProgressLocation, TextDocument, Uri, commands, l10n, window } from 'vscode';
 import ICmd from '../iCmd';
 import tmpTitle from './tmpTitle.txt?raw';
 
@@ -40,20 +40,20 @@ export default class FormatFolderCmd extends ICmd {
   private folder: Uri = null!;
 
   /**
-   * 选择工作空间文件夹
+   * 选择工作区文件夹
    * @returns 
    */
   async selectWorkspaceFolderUri() {
     const wfs = await showSelectWorkspaceFolderPick({
-      title: 'Select the workspace that needs to be formatted',
+      title: l10n.t('Select the workspace that needs to be formatted'),
       ignoreFocusOut: true,
-      placeHolder: 'Select workspace',
-      esc: 'Select workspace cancelled'
+      placeHolder: l10n.t('Select workspace folder'),
+      esc: l10n.t('Select workspace folder cancelled')
     });
 
     if (wfs === undefined) {
       // 取消
-      throw new ECancelAborted('Workspace not open');
+      throw new ECancelAborted(l10n.t('Workspace not open'));
     }
 
     return wfs.uri;
@@ -100,7 +100,7 @@ export default class FormatFolderCmd extends ICmd {
     const loopFilter = async (p: string[], lExt: string[]): Promise<string[]> => {
       if (token.isCancellationRequested) {
         // 取消搜索
-        throw new ECancelAborted('Format cancelled');
+        throw new ECancelAborted(l10n.t('Format cancelled'));
       }
 
       const res: string[] = [];
@@ -148,7 +148,7 @@ export default class FormatFolderCmd extends ICmd {
       {
         cancellable: true,
         location: ProgressLocation.Notification,
-        title: 'Filter files by ignores'
+        title: l10n.t('Filter files by ignores')
       },
       async (p: TaskProgress, t: CancellationToken) => {
         progress = p, token = t;
@@ -179,7 +179,7 @@ export default class FormatFolderCmd extends ICmd {
       for (let index = 0; index < docs.length; index++) {
         if (token.isCancellationRequested) {
           // 取消
-          throw new ECancelAborted('Format cancelled');
+          throw new ECancelAborted(l10n.t('Format cancelled'));
         }
 
         const doc = Uri.joinPath(this.folder, docs[index]);
@@ -202,7 +202,7 @@ export default class FormatFolderCmd extends ICmd {
       {
         cancellable: true,
         location: ProgressLocation.Notification,
-        title: 'Formatting documents'
+        title: l10n.t('Formatting documents')
       },
       formatTask
     );
@@ -213,17 +213,17 @@ export default class FormatFolderCmd extends ICmd {
    */
   async confirmStartFormat() {
     const res = await showConfirmPick({
-      sure: 'Start Format',
-      cancel: 'Cancel',
-      title: `Start format workspace (${pathUtil.basename(this.folder)}) files?`,
+      sure: l10n.t('Start Format'),
+      cancel: l10n.t('Cancel'),
+      title: l10n.t('Start format workspace ({0}) files?', pathUtil.basename(this.folder)),
       ignoreFocusOut: true,
-      placeHolder: 'Please check file list',
-      esc: 'Format cancelled'
+      placeHolder: l10n.t('Please check file list'),
+      esc: l10n.t('Format cancelled')
     });
 
     if (!res) {
       // 取消
-      throw new ECancelAborted('Format cancelled');
+      throw new ECancelAborted(l10n.t('Format cancelled'));
     }
   }
 
@@ -295,7 +295,7 @@ export default class FormatFolderCmd extends ICmd {
       // 文档顶部banner占位信息(变相解决确认框遮挡问题)
       ...tmpTitleLines,
       lineHead,
-      'Format files (please check):',
+      l10n.t('Format files (please check):'),
       lineHead,
       ...statLines,
       lineBody,
@@ -312,7 +312,7 @@ export default class FormatFolderCmd extends ICmd {
   async run(uri: Uri) {
     // 标识格式化进行中, 搭配 when 防止重入
     await commands.executeCommand('setContext', formatingWhenKey, true);
-    // 工作空间存在多个文件夹时根目录右键选择异常 {}
+    // 工作区存在多个文件夹时根目录右键选择异常 {}
     // 修正为：让用户自行选择工作空间文件夹
     this.folder = Object.keys(uri).length === 0
       ? await this.selectWorkspaceFolderUri()
@@ -320,12 +320,12 @@ export default class FormatFolderCmd extends ICmd {
 
     log.debug('Format folder root:', this.folder);
 
-    // 筛选全部需要格式化的文件
+    // 筛选全部需要格式化的文档
     const docs = await this.filterFolder();
 
-    // 未搜索到文件
+    // 未搜索到文档
     if (docs.length == 0) {
-      return msg.showInformationMessage('No match files: nothing to do');
+      return msg.showInformationMessage(l10n.t('No match files: nothing to do'));
     }
 
     // 显示文档统计信息
@@ -349,7 +349,7 @@ export default class FormatFolderCmd extends ICmd {
       // workbench.action.closeUnmodifiedEditors
     }
 
-    msg.showInformationMessage('Format files completed');
+    msg.showInformationMessage(l10n.t('Format files completed'));
   }
 
   async deactivate() {

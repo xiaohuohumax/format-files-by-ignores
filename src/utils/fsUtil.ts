@@ -15,7 +15,7 @@ async function isExists(uri: Uri) {
 }
 
 /**
- * 获取文件夹子文件列表
+ * 获取文件夹子文档列表
  * @param folder 文件夹路径
  * @returns 
  */
@@ -24,8 +24,8 @@ async function readDirectory(folder: Uri) {
 }
 
 /**
- * 读取文件内容
- * @param doc 文件路径
+ * 读取文档内容
+ * @param doc 文档路径
  * @param encoding 编码格式
  * @returns 
  */

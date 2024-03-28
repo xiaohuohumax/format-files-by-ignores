@@ -1,0 +1,16 @@
+{
+  "Select the workspace that needs to be formatted": "请选择需要格式化的工作区文件夹",
+  "Select workspace folder": "选择工作区文件夹",
+  "Select workspace folder cancelled": "取消-选择工作区文件夹",
+  "Workspace not open": "工作区未打开",
+  "Format cancelled": "取消-格式化",
+  "Filter files by ignores": "通过 Ignore 配置搜索文档中",
+  "Formatting documents": "格式化文档中",
+  "Start Format": "开始格式化",
+  "Cancel": "取消",
+  "Start format workspace ({0}) files?": "是否开始格式化工作区（{0}）文件夹下的文档？",
+  "Format files (please check):": "待格式化文档列表（请检查）",
+  "Please check file list": "请检查待格式化的文档列表",
+  "No match files: nothing to do": "未匹配到文档：没啥可做的",
+  "Format files completed": "格式化文档完成"
+}

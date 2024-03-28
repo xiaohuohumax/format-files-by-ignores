@@ -12,7 +12,7 @@
 
 VSCode插件：依据 ignore 文件筛选文件，然后批量格式化文件（Format Files By Ignores）
 
-**注意:** 格式文件时是调用 VSCode 的默认格式化（alt + shift + f），用户默认配置是啥就是啥。
+**注意:** 格式文档时是调用 VSCode 的默认功能（alt + shift + f），用户默认配置是啥就是啥。
 
 ## 安装
 
@@ -20,13 +20,13 @@ VSCode 插件搜索 `Format Files By Ignores`
 
 ## 使用
 
-+ **格式文件夹（folder）**
++ **格式化选定文件夹（folder）**
     + 文件夹上 `右键`
-    + 选择 `Start Format Folder By Ignores 📂`
-+ **格式工作空间（workspace）**
+    + 选择 `Start Format Folder By Ignores 📂` 或者 `通过 Ignore 配置格式化选定文件夹 📂`
++ **格式化工作区（workspace）**
     + 调用命令面板 `ctrl + shift + p`
-    + 搜索 `Start Format Workspace By Ignores 📂`
-    + 选择需要批量格式的 `工作空间（workspace）`
+    + 搜索 `Start Format Workspace By Ignores 📂` 或者 `通过 Ignore 配置格式化工作区 📂`
+    + 选择需要格式化的 `工作区（workspace）`
 + **自定义ignore文件**
     + 文件夹下创建名叫 `.formatignore` 的文件, 接着写入过滤规则(规则和 `.gitignore` 相同)
 

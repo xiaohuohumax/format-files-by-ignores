@@ -21,7 +21,7 @@ async function formatDocument(doc: Uri, organizeImports: boolean): Promise<boole
     await commands.executeCommand('editor.action.formatDocument');
     // 保存文档
     await commands.executeCommand('workbench.action.files.save');
-    // todo 记录执行命令前文件状态, 已经打开的则不关闭
+    // todo 记录执行命令前文档状态, 已经打开的则不关闭
     // 关闭文档
     await commands.executeCommand('workbench.action.closeActiveEditor');
     return true;
@@ -53,7 +53,7 @@ export interface DocumentsStat {
 
 /**
  * 文档统计
- * @param docs 文件列表
+ * @param docs 文档列表
  * @returns 
  */
 function statDocuments(docs: Uri[]): DocumentsStat {
@@ -65,7 +65,7 @@ function statDocuments(docs: Uri[]): DocumentsStat {
   for (const doc of docs) {
     let ext = pathUtil.extname(doc);
     ext = ext || pathUtil.basename(doc);
-    // 后缀名不存在则使用文件名
+    // 后缀名不存在则使用文档名
     res.ext[ext] = ++(res.ext[ext]) || 1;
   }
 
