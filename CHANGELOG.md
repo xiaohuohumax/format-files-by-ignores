@@ -1,5 +1,11 @@
 # format-files-by-ignores
 
+## 1.7.0
+
+### Minor Changes
+
+- [`9329643`](https://github.com/xiaohuohumax/format-files-by-ignores/commit/9329643e45e487db99a48182634f9112ef0682b8) Thanks [@xiaohuohumax](https://github.com/xiaohuohumax)! - l10n 添加中文
+
 ## 1.6.0
 
 ### Minor Changes
