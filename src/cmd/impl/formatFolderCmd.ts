@@ -60,104 +60,99 @@ export default class FormatFolderCmd extends ICmd {
   }
 
   /**
+   * 通过文件夹路径获取 ignore 规则
+   * @param pUri 文件夹路径
+   * @param lExt 扩展规则(在所有文件规则之前,优先级最低)
+   * @returns 
+   */
+  async initIgnore(pUri: Uri, lExt: string[]) {
+    const filter = ignore({ allowRelativePaths: true }).add(lExt);
+
+    // 获取文件夹下的过滤规则
+    for (const ignoreFile of Config.get.ignoreFileNames.map(i => Uri.joinPath(pUri, i))) {
+      if (!await fsUtil.isExists(ignoreFile)) {
+        continue;
+      }
+      log.debug('Find ignore file:', ignoreFile);
+      filter.add(await fsUtil.readFile(ignoreFile, 'utf-8'));
+    }
+
+    return filter;
+  }
+
+  /**
+   * 递归过滤文档
+   * @param p 文档路径
+   * @param lExt 扩展过滤规则
+   * @param progress 进度条
+   * @param token 取消令牌
+   * @returns 
+   */
+  async loopFilter(p: string[], lExt: string[], progress: TaskProgress, token: CancellationToken): Promise<string[]> {
+    if (token.isCancellationRequested) {
+      // 取消搜索
+      throw new ECancelAborted(l10n.t('Format cancelled'));
+    }
+
+    const res: string[] = [];
+
+    const pUri = Uri.joinPath(this.folder, ...p);
+
+    if (!await fsUtil.isExists(pUri)) {
+      log.error('Folder not exists:', pUri);
+      return res;
+    }
+
+    const filter = await this.initIgnore(pUri, lExt);
+
+    const files = [];
+
+    for (const [name, fileType] of await fsUtil.readDirectory(pUri)) {
+      const file = p.concat(name).join('/');
+
+      progress.report({ message: file });
+
+      // 判断文档是否存在
+      const fileUri = Uri.joinPath(this.folder, file);
+      if (!await fsUtil.isExists(fileUri)) {
+        log.error('Document not exists:', fileUri);
+        continue;
+      }
+
+      if (fileType === FileType.Directory && !filter.ignores(name + '/')) {
+        // 子目录
+        const children = (await this.loopFilter(p.concat(name), [], progress, token))
+          .map(f => name + '/' + f);
+        files.push(...children);
+        continue;
+      }
+
+      if (fileType === FileType.File && !filter.ignores(name)) {
+        files.push(name);
+      }
+    }
+
+    return res.concat(filter.filter(files));
+  }
+
+  /**
    * 通过 ignore 配置过滤文件夹
    * @returns 
    */
   async filterFolder(): Promise<string[]> {
-
-    /**
-     * 通过文件夹路径获取 ignore 规则
-     * @param pUri 文件夹路径
-     * @param lExt 扩展规则(在所有文件规则之前,优先级最低)
-     * @returns 
-     */
-    async function initIgnore(pUri: Uri, lExt: string[]) {
-      const filter = ignore({ allowRelativePaths: true }).add(lExt);
-
-      // 获取文件夹下的过滤规则
-      for (const ignoreFile of Config.get.ignoreFileNames.map(i => Uri.joinPath(pUri, i))) {
-        if (!await fsUtil.isExists(ignoreFile)) {
-          continue;
-        }
-        log.debug('Find ignore file:', ignoreFile);
-        filter.add(await fsUtil.readFile(ignoreFile, 'utf-8'));
-      }
-
-      return filter;
-    }
-
-    // 进度条控制
-    let progress: TaskProgress = null!;
-    // 取消令牌
-    let token: CancellationToken = null!;
-
-    /**
-       * 递归过滤文档
-       * @param p 文档路径
-       * @param lExt 扩展过滤规则
-       * @returns 
-       */
-    const loopFilter = async (p: string[], lExt: string[]): Promise<string[]> => {
-      if (token.isCancellationRequested) {
-        // 取消搜索
-        throw new ECancelAborted(l10n.t('Format cancelled'));
-      }
-
-      const res: string[] = [];
-
-      const pUri = Uri.joinPath(this.folder, ...p);
-
-      if (!await fsUtil.isExists(pUri)) {
-        log.error('Folder not exists:', pUri);
-        return res;
-      }
-
-      const filter = await initIgnore(pUri, lExt);
-
-      const files = [];
-
-      for (const [name, fileType] of await fsUtil.readDirectory(pUri)) {
-        const file = p.concat(name).join('/');
-
-        progress.report({ message: file });
-
-        // 判断文档是否存在
-        const fileUri = Uri.joinPath(this.folder, file);
-        if (!await fsUtil.isExists(fileUri)) {
-          log.error('Document not exists:', fileUri);
-          continue;
-        }
-
-        if (fileType === FileType.Directory && !filter.ignores(name + '/')) {
-          // 子目录
-          const children = (await loopFilter(p.concat(name), []))
-            .map(f => name + '/' + f);
-          files.push(...children);
-          continue;
-        }
-
-        if (fileType === FileType.File && !filter.ignores(name)) {
-          files.push(name);
-        }
-      }
-
-      return res.concat(filter.filter(files));
-    };
-
     return await window.withProgress<string[]>(
       {
         cancellable: true,
         location: ProgressLocation.Notification,
         title: l10n.t('Filter files by ignores')
       },
-      async (p: TaskProgress, t: CancellationToken) => {
-        progress = p, token = t;
+      async (progress: TaskProgress, token: CancellationToken) => {
 
         const lExt = Config.get.useIgnoreExtension
           ? Config.get.ignoreExtension
           : [];
 
-        return await loopFilter([], lExt);
+        return await this.loopFilter([], lExt, progress, token);
       }
     );
   }
