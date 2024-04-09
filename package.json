@@ -98,7 +98,7 @@
         {
           "when": "explorerResourceIsFolder && !formatFilesByIgnores.formating",
           "command": "formatFilesByIgnores.start.formatFolder",
-          "group": "navigation@-1"
+          "group": "formatFilesByIgnores"
         }
       ]
     }
