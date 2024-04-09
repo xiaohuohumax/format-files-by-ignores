@@ -1,5 +1,11 @@
 # format-files-by-ignores
 
+## 1.7.1
+
+### Patch Changes
+
+- [`ba2b195`](https://github.com/xiaohuohumax/format-files-by-ignores/commit/ba2b19508cdf118c59743878af8b600d564f89b4) Thanks [@xiaohuohumax](https://github.com/xiaohuohumax)! - 修改菜单分组
+
 ## 1.7.0
 
 ### Minor Changes
