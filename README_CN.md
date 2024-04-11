@@ -10,9 +10,7 @@
 
 [English](./README.md)
 
-VSCode插件：依据 ignore 文件筛选文件，然后批量格式化文件（Format Files By Ignores）
-
-**注意:** 格式文档时是调用 VSCode 的默认功能（alt + shift + f），用户默认配置是啥就是啥。
+VSCode 扩展: **批量格式化未被 `ignore` 配置过滤的文件**
 
 ## 安装
 

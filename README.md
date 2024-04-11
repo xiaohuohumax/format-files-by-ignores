@@ -10,7 +10,7 @@
 
 [中文](./README_CN.md)
 
-**Batch Format file by ignore file**
+VSCode Extension: **Batch formatting files not filtered by the `ignore` configuration** 
 
 ## Install
 
