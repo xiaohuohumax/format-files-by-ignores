@@ -77,6 +77,13 @@
             "type": "boolean",
             "description": "%formatFilesByIgnores.configuration.organizeImports.description%",
             "default": false
+          },
+          "formatFilesByIgnores.filterConcurrency": {
+            "scope": "resource",
+            "type": "number",
+            "description": "%formatFilesByIgnores.configuration.filterConcurrency.description%",
+            "default": 16,
+            "minimum": 1
           }
         }
       }
@@ -129,6 +136,7 @@
     "vite": "^5.2.5"
   },
   "dependencies": {
-    "ignore": "^5.3.1"
+    "ignore": "^5.3.1",
+    "p-limit": "^5.0.0"
   }
 }

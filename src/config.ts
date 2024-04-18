@@ -23,6 +23,10 @@ export interface IConfig {
    * 是否格式化 import 语句 (删除未使用参数, 按照规律排序)
    */
   organizeImports: boolean
+  /**
+   * 过滤并发数
+   */
+  filterConcurrency: number
 }
 
 /**
@@ -37,7 +41,8 @@ export class Config {
         useIgnoreExtension: true,
         ignoreExtension: [],
         ignoreFileNames: [],
-        organizeImports: false
+        organizeImports: false,
+        filterConcurrency: 16
       }
     );
   }

@@ -54,6 +54,8 @@ VSCode 插件搜索 `Format Files By Ignores`
   - `default`: [ ".gitignore", ".formatignore" ]
 - `formatFilesByIgnores.collapseExplorerFolders`: 格式化完成后是否折叠资源管理器文件夹?
   - `default`: true
+- `formatFilesByIgnores.filterConcurrency`: 过滤并发数
+  - `default`: 16
 
 ## ignore 优先级
 

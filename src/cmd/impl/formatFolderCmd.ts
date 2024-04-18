@@ -12,6 +12,7 @@ import ignore from 'ignore';
 import { CancellationToken, FileType, LogLevel, Progress, ProgressLocation, TextDocument, Uri, commands, l10n, window } from 'vscode';
 import ICmd from '../iCmd';
 import tmpTitle from './tmpTitle.txt?raw';
+import pLimit from 'p-limit'
 
 type TaskProgress = Progress<{ message?: string; increment?: number; }>
 
@@ -66,7 +67,7 @@ export default class FormatFolderCmd extends ICmd {
    * @returns 
    */
   async initIgnore(pUri: Uri, lExt: string[]) {
-    const filter = ignore({ allowRelativePaths: true }).add(lExt);
+    const ignores: string[] = [...lExt]
 
     // 获取文件夹下的过滤规则
     for (const ignoreFile of Config.get.ignoreFileNames.map(i => Uri.joinPath(pUri, i))) {
@@ -74,65 +75,68 @@ export default class FormatFolderCmd extends ICmd {
         continue;
       }
       log.debug('Find ignore file:', ignoreFile);
-      filter.add(await fsUtil.readFile(ignoreFile, 'utf-8'));
+      ignores.push(...(await fsUtil.readFile(ignoreFile, 'utf-8')).split(/\r?\n/ig))
     }
 
-    return filter;
+    return ignores.length > 0 ? ignore({ allowRelativePaths: true }).add(ignores) : undefined;
   }
 
   /**
    * 递归过滤文档
    * @param p 文档路径
    * @param lExt 扩展过滤规则
+   * @param pLimitConcurrency 并发限制
    * @param progress 进度条
    * @param token 取消令牌
    * @returns 
    */
-  async loopFilter(p: string[], lExt: string[], progress: TaskProgress, token: CancellationToken): Promise<string[]> {
+  async loopFilter(p: string[], lExt: string[], pLimitConcurrency: number, progress: TaskProgress, token: CancellationToken): Promise<string[]> {
     if (token.isCancellationRequested) {
       // 取消搜索
       throw new ECancelAborted(l10n.t('Format cancelled'));
     }
 
-    const res: string[] = [];
-
     const pUri = Uri.joinPath(this.folder, ...p);
 
     if (!await fsUtil.isExists(pUri)) {
       log.error('Folder not exists:', pUri);
-      return res;
+      return [];
     }
 
     const filter = await this.initIgnore(pUri, lExt);
 
     const files = [];
 
+    const limit = pLimit(pLimitConcurrency);
+    const jobs = [];
+
     for (const [name, fileType] of await fsUtil.readDirectory(pUri)) {
-      const file = p.concat(name).join('/');
+      const filePath = p.concat(name).join('/')
 
-      progress.report({ message: file });
+      progress.report({ message: filePath });
 
-      // 判断文档是否存在
-      const fileUri = Uri.joinPath(this.folder, file);
-      if (!await fsUtil.isExists(fileUri)) {
-        log.error('Document not exists:', fileUri);
-        continue;
-      }
+      log.debug('Loop filter:', filePath);
 
-      if (fileType === FileType.Directory && !filter.ignores(name + '/')) {
+      if (fileType === FileType.Directory && (!filter || !filter.ignores(name + '/'))) {
         // 子目录
-        const children = (await this.loopFilter(p.concat(name), [], progress, token))
-          .map(f => name + '/' + f);
-        files.push(...children);
+        const job = limit(
+          (n) => this.loopFilter(p.concat(n), [], pLimitConcurrency, progress, token)
+            .then(files => files.map(f => name + '/' + f)),
+          name
+        );
+
+        jobs.push(job);
         continue;
       }
 
-      if (fileType === FileType.File && !filter.ignores(name)) {
+      if (fileType === FileType.File && (!filter || !filter.ignores(name))) {
         files.push(name);
       }
     }
 
-    return res.concat(filter.filter(files));
+    (await Promise.all(jobs)).forEach(f => files.push(...f));
+
+    return filter ? filter.filter(files) : files;
   }
 
   /**
@@ -152,7 +156,13 @@ export default class FormatFolderCmd extends ICmd {
           ? Config.get.ignoreExtension
           : [];
 
-        return await this.loopFilter([], lExt, progress, token);
+        return await this.loopFilter(
+          [],
+          lExt,
+          Config.get.filterConcurrency,
+          progress,
+          token
+        );
       }
     );
   }
@@ -301,6 +311,7 @@ export default class FormatFolderCmd extends ICmd {
     lines.forEach(l => log.info(l));
 
     // 创建临时文档供用户检查
+    // todo 临时文档内容过长时会导致编辑器卡顿 待优化
     this.formatFilesTmpDoc = await docUtil.createDocument(lines.join('\n'));
   }
 

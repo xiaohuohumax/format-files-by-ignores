@@ -57,6 +57,8 @@ VSCode Extensions Select `Format Files By Ignores`
   - `default`: [ ".gitignore", ".formatignore" ]
 - `formatFilesByIgnores.collapseExplorerFolders`: Whether to collapse the explorer folder after formatting?
   - `default`: true
+- `formatFilesByIgnores.filterConcurrency`: Filter concurrency
+  - `default`: 16
 
 ## Ignore priority
 
