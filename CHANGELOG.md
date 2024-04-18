@@ -1,5 +1,11 @@
 # format-files-by-ignores
 
+## 1.8.0
+
+### Minor Changes
+
+- [`90e2579`](https://github.com/xiaohuohumax/format-files-by-ignores/commit/90e2579d708bf23cc9290b3070a24fbb24c2b1a3) Thanks [@xiaohuohumax](https://github.com/xiaohuohumax)! - 搜索过滤改为多线程, 大幅减少搜索时间
+
 ## 1.7.1
 
 ### Patch Changes
